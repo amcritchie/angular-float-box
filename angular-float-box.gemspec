@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'angular/float/box/version'
+require 'angular-float-box/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "angular-float-box"
-  spec.version       = Angular::Float::Box::VERSION
+  spec.version       = AngularFloatBox::VERSION
   spec.authors       = ["Alexander Mcritchie"]
-  spec.email         = ["TODO: Write your email address"]
+  spec.email         = ["amcritchie@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Angular CRUD container framework.}
+  spec.description   = %q{Framework for building a mobile responsive angular CRUD container with layouts for create, read and update views as well as a handful of features for good UX.}
+  spec.homepage      = "https://github.com/amcritchie/angular-float-box"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
