@@ -1,0 +1,338 @@
+// Float Box SCSS
+
+// Minify SCSS file
+// $ sass --watch vendor/assets/stylesheets/angular-float-box.css.scss:vendor/assets/stylesheets/angular-float-box.min.css --style compressed
+
+// Specific float box widths
+.vendor-float-box{ width: 457px; }
+#employee-float-box{ width: 457px; }
+#application-float-box{ width: 457px; }
+
+
+// == float-box ================================================
+#float-box {
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  // Basic style
+  z-index: 10;
+  margin-top: 30px;
+  position: relative;
+  background-color: white;
+  // Border of float-box
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  // md, sm, xs
+  @media (max-width:1200px) {
+    position: fixed; // Fix float-box to right side.
+    right: 30px; // Position float-box 30px from right edge.
+  }
+  // Mobile Sizes - Once in mobile, float-box should fit the whole screen.
+  @media (max-width:767px) {
+    display: none; // Start hidden, if there is a focused record the controller will show the float-box.
+    bottom: 0; // Position mobile-float-box to bottom of screen.  Height is inherited from the dynamicHeightService
+    right: 0; // Position mobile-float-box to right of screen to overwrite the float-box 30px margin.
+    width: 100% !important; // Once in mobile, float-box should fit the whole screen.
+  }
+}
+
+// The float-box-tabs are navigated via js so they are not visible.
+#float-box #float-box-tabs{
+  display: none;
+}
+
+
+// ==== float-box-positioner  ==============================
+#float-box #float-box-positioner {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 4px 10px;
+  padding: 2px 10px;
+  padding: 0 6px;
+  padding: 1px 8px;
+  background-color: #eeeeee;
+  text-align: right;
+  height: 22px;
+  cursor: pointer;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+}
+// Positioner.active | Styling
+#float-box #float-box-positioner:active {
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+}
+
+#float-box #float-box-positioner .float-box-positioner-btn {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  line-height: 0.1;
+  padding: 3px 1px 0 0;;
+  margin-bottom: 5px;
+  border-radius: 30px;
+  text-align: center;
+}
+// Positioner | Icon
+// Locations Icon used to resemble revert float_box to default state.
+.fa-location:before {
+  content: "\f124";
+}
+
+// ==== float-box-positioner  ==============================
+#float-box #float-box-container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+// ==== float-box-head  ==============================
+// Add transisiton for all browsers
+@mixin transition($duration) {
+  -webkit-transition: all $duration ease;
+  -moz-transition: all $duration ease;
+  -o-transition: all $duration ease;
+  transition: all $duration ease;
+}
+// Makes element position absolute, but fixed on mobile.
+@mixin float-box-fixed {
+  z-index: 20;
+  position: absolute;
+  background-color: white;
+  @media (max-width:767px) {
+    position: fixed;
+  }
+}
+// Makes element position absolute, but fixed on mobile.
+@mixin float-box-row {
+  float: left;
+  width: 100%;
+}
+#float-box .float-box-head {
+  @include float-box-fixed;
+  left: 0;
+  width: 100%;
+  padding-top: 10px;
+  // On Mobile, the top position needs to be 0 to show the
+  @media (max-width:767px) { top: 0; }
+}
+
+// ====== float-box-links  ======
+#float-box .float-box-head .float-box-links {
+  width: 100%;
+  padding: 0 10px;
+  font-size: 20px;
+  text-decoration: none;
+  display: inline-block;
+}
+// float-box-grey-link
+#float-box .float-box-head .float-box-links .float-box-grey-link {
+  color: grey;
+  cursor: default;
+}
+// float-box-grey-link:hover
+#float-box .float-box-head .float-box-links .float-box-grey-link:hover {
+}
+// ====== float-box-image  ======
+#float-box .float-box-head .float-box-image {
+  text-align: center;
+  img{
+    @include transition(.5s);
+    width: 80px;
+    height: 80px;
+  }
+}
+// condensed
+#float-box .float-box-head.smaller .float-box-image {
+  img{
+    width: 30px;
+    height: 30px;
+  }
+}
+
+// ====== float-box-title  ======
+#float-box .float-box-head .float-box-title {
+  @include transition(.5s);
+  text-align: center;
+  font-size: 40px;
+}
+#float-box .float-box-head .float-box-title .float-box-title-text {
+  display: inline;
+  white-space: nowrap;
+}
+// condensed
+#float-box .float-box-head.smaller .float-box-title {
+  font-size: 20px;
+}
+
+// ====== float-box-actions  ======
+#float-box .float-box-head .float-box-actions {
+  @include float-box-row;
+}
+
+#float-box .float-box-head .float-box-actions .btn{
+  @include transition(.5s);
+  width: 40px;
+  height: 40px;
+  padding: 7px 9px;
+  font-size: 20px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+
+#float-box .float-box-head .float-box-actions p{
+  @include transition(.5s);
+}
+// condensed
+#float-box .float-box-head.smaller .float-box-actions .btn{
+  width: 30px;
+  height: 30px;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+#float-box .float-box-head.smaller .float-box-actions p{
+  font-size: 10px;
+}
+
+#float-box .float-box-head .float-box-actions .float-box-actions-container {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  display: -moz-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+  justify-content: center;
+}
+#float-box .float-box-head .float-box-actions .float-box-actions-container .float-box-action{
+  text-align: center;
+  padding: 10px;
+}
+#float-box .float-box-head .float-box-actions .float-box-actions-container .float-box-action a{
+  text-decoration: none;
+}
+
+// ====== float-box-tabs  ======
+#float-box .float-box-head .float-box-tabs {
+  font-size: 12px;
+  padding: 0 15px;
+}
+f
+// ====== Space for float-box-head  ======
+#float-box .float-box-head-space {
+  @include transition(.5s);
+}
+// Float box head space.  This is needed because the head is fixed and there are elements under the head.
+#float-box #float-box-read .float-box-head-space{
+  height: 340px;
+  @media (min-width:767px) { height: 309px; } // Non Mobile Sizes - Once in mobile, float-box should fit the whole screen.
+}
+// condensed
+#float-box #float-box-read .float-box-head-space.smaller{
+  height: 245px;
+  @media (min-width:767px) { height: 214px; } // Non Mobile Sizes - Once in mobile, float-box should fit the whole screen.
+}
+// Float box head space.  This is needed because the head is fixed and there are elements under the head.
+#float-box #float-box-create .float-box-head-space{
+  height: 200px;
+  @media (min-width:767px) { height: 140px; } // Non Mobile Sizes - Once in mobile, float-box should fit the whole screen.
+}
+// condensed
+#float-box #float-box-create .float-box-head-space.smaller{
+  height: 150px;
+  @media (min-width:767px) { height: 100px; } // Non Mobile Sizes - Once in mobile, float-box should fit the whole screen.
+}
+
+// ==== float-box-body  ==============================
+// ====== float-box-index-tab  ======
+#float-box .float-box-body .float-box-index-tab .float-box-index-tab-head{
+  @include float-box-fixed;
+  width: 100%;
+  padding: 0 15px;
+  pointer-events: none; // This allows a user to scroll the body of the float-box even though this element is fixed.
+  .float-box-search-bar {
+    width: 220px;
+    pointer-events: auto; // Since we removed the pointer-events from parent, we need this to allow the scroll to be clicked on.
+    // Mobile Sizes - Once in mobile, float-box should fit the whole screen.
+    @media (max-width:767px) {
+      width: 180px
+    }
+  }
+  .float-box-new-btn {
+    pointer-events: auto; // Since we removed the pointer-events from parent, we need this to allow the scroll to be clicked on.
+  }
+}
+// Head of an index tab in the float box.
+#float-box .float-box-body .float-box-index-tab .float-box-index-table-head {
+  @include float-box-fixed;
+  width: 100%;
+  padding: 0 15px;
+  pointer-events: none; // This allows a user to scroll the body of the float-box even though this element is fixed.
+  a {
+    color: black;
+    text-decoration: none;
+    pointer-events: auto; // Since we removed the pointer-events from parent, we need this to allow the scroll to be clicked on.
+  }
+}
+// Table of an index tab in the float box.
+#float-box .float-box-body .float-box-index-tab .float-box-index-table {
+  padding: 0 15px;
+}
+// Head of an index tab in the float box.
+#float-box .float-box-body .float-box-index-tab .float-box-index-row {
+  img {
+    width: 40px;
+    height: 40px;
+  }
+  h4 {
+    margin-bottom: 0;
+  }
+  h6 {
+    margin-top: 0;
+  }
+}
+// ====== float-box-info-tab  ======
+#float-box .float-box-body .float-box-info-tab .float-box-info-row {
+  border-bottom: 1px solid lightgrey;
+  padding: 5px 15px;
+  font-size: 18px;
+  h3{
+    margin-bottom: 0;
+  }
+}
+
+// ====== Space for float-box-body  ======
+// Index Tab Head | Space
+#float-box .float-box-index-tab-head-space{
+  @include transition(.5s);
+  height: 60px;
+}
+// Space needed for head of an index tab in the float box.
+#float-box .float-box-index-table-head-space{
+  @include transition(.5s);
+  height: 32px;
+}
+
+// This will potentially be used as the float box head if we need it any thinner.
+#float-box .float-box-small-head{
+  img{
+    width: 50px;
+    height: 50px;
+  }
+  .btn{
+    width: 30px;
+    height: 30px;
+    padding: 4px 8px;
+    font-size: 12px;
+    line-height: 1.33;
+    border-radius: 25px;
+  }
+  p{
+    font-size: 10px;
+  }
+}

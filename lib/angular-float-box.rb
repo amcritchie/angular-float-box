@@ -1,4 +1,4 @@
-require "angular/float/box/version"
+require "angular-float-box/version"
 
 module AngularFloatBox
   class Engine < ::Rails::Engine; end
