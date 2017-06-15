@@ -93,15 +93,22 @@
       })
     }
 
-    // Show float-box via slide in from the right.
-    this.slide_in = function() {
-      $( "#float-box" ).show( "drop", {direction: 'right'})
+    // Show float-box
+    this.show = function() {
+      $( "#float-box" ).show()
     }
-
-    // Hide float-box via slide in from the right.
-    this.slide_out = function() {
+    // Hide float-box
+    this.hide = function() {
+      $( "#float-box" ).hide()
+    }
+    // Show float-box via slide in from the direction specified.
+    this.slide_in = function(direction) {
+      $( "#float-box" ).show( "drop", {direction: direction})
+    }
+    // Hide float-box via slide in from the direction specified.
+    this.slide_out = function(direction) {
       if ($(window).width() < 768) {
-        $( "#float-box" ).hide( "drop", {direction: 'right'})
+        $( "#float-box" ).hide( "drop", {direction: direction})
       };
     }
 

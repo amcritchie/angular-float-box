@@ -1,4 +1,4 @@
-# Angular::Float::Box
+# Angular Float Box
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/angular-float-box`. To experiment with that code, run `bin/console` for an interactive prompt.
 
@@ -14,15 +14,77 @@ gem 'angular-float-box'
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install angular-float-box
+```bash
+$ gem install angular-float-box
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+### Require Assets
+Require float-box to your application.css:
+```scss
+*= require angular-float-box.min
+```
+Require float-box to your application.js:
+```js
+//= require angular-float-box.min
+```
+Add the float-box module as a dependency to your application module:
+```js
+var app = angular.module('MyApp', ['angular-float-box'])
+```
+Add the float-box service as a dependency to the controller(s) you would like to use it in.
+```js
+app.controller("UsersCtrl", ['$scope' 'floatBox',
+function($scope, floatBox) {
+  ...
+}])
+```
+
+### Functions
+To start using the float-box functionality you will need to initialize it in your controller and pass in the $scope.
+```js
+floatBox.initialize($scope);
+```
+Float-box is built mobile friendly, which means appearing when you need it and disappearing when you don't.  For this purpose, float-box has a handful of functions for showing and hidding.
+```js
+// Display float-box
+floatBox.show();
+// Hide float-box
+floatBox.hide();
+// Show float-box via slide
+floatBox.slide_in(direction); // right, left, top, down
+// Hide float-box via slide
+floatBox.slide_out(direction); // right, left, top, down
+```
+Navigating between create, read and update tabs.
+```js
+// Show float-box-create-tab if not already shown.
+floatBox.create();
+// Show float-box-read-tab if not already shown.
+floatBox.read();
+// Show float-box-update-tab if not already shown.
+floatBox.update();
+```
+Formatting float-box
+```js
+// Adjust size of float-box-title if it is to large for float-box.
+floatBox.normalize_title();
+```
+
+## Float-Box HTML
+
+[Float Box Basic HTML](https://github.com/amcritchie/angular-float-box/wiki/Float-Box-HTML)
+* [Float Box Create Tab HTML](https://github.com/amcritchie/angular-float-box/wiki/Float-Box-HTML-Create-Tab)
+* [Float Box Read Tab HTML](https://github.com/amcritchie/angular-float-box/wiki/Float-Box-HTML-Read-Tab)
+* [Float Box Update Tab HTML](https://github.com/amcritchie/angular-float-box/wiki/Float-Box-HTML-Update-Tab)
+
 
 ## Development
 
