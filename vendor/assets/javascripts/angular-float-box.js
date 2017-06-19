@@ -15,10 +15,13 @@
   .service('floatBox', ['$timeout',
   function($timeout) {
 
+    var direction = 'right'
+
     // Call floatBox.initializes in the controller to create listeners for scrolling and dragging float-box
-    this.initialize = function($scope) {
+    this.initialize = function($scope, slide_direction) {
       initialize_scroll($scope)
       initialize_draggable($scope)
+      direction = slide_direction;
     }
 
     // Initializes float-box's scroll listener.
@@ -76,23 +79,6 @@
       $('#float-box').draggable().draggable('disable');
     };
 
-    // Normalize the font-size of the title so it doesn't take more than one line.
-    this.normalize_title = function(){
-      // Find float-box-title and it's text.
-      var title = $(".float-box-title");
-      var title_text = $(".float-box-title-text");
-      // Remove js generated font-size.
-      title_text.css("font-size", "")
-      // Let DOM load so the title_text is fully rendered
-      $timeout(function() {
-        // If title text is larger than the width of the title div, lower the font-size.
-        if ((title_text.width() > title.width())) {
-          // Set the font-size to the .smaller font-size
-          title_text.css("font-size", 20)
-        }
-      })
-    }
-
     // Show float-box
     this.show = function() {
       $( "#float-box" ).show()
@@ -105,6 +91,12 @@
     this.slide_in = function(direction) {
       $( "#float-box" ).show( "drop", {direction: direction})
     }
+    // Show float-box via slide in from the direction specified.
+    function slide_in(slide_direction) {
+      direction = slide_direction || direction
+      $( "#float-box" ).show( "drop", {direction: direction})
+    }
+    this.slide_in = slide_in;
     // Hide float-box via slide in from the direction specified.
     this.slide_out = function(direction) {
       if ($(window).width() < 768) {
@@ -115,21 +107,79 @@
     // Display float-box-create tab.
     this.create = function() {
       // Show float-box-create-tab if not already shown.
-      $('#float-box-create-tab').tab('show')
+      $('#float-box-create-tab').tab('show');
+      // Reset defaults and show if needed.
+      new_float_box_instance($('float-box-create'));
     }
 
     // Display float-box-read tab.
     this.read = function() {
       // Show float-box-read-tab if not already shown.
-      $('#float-box-read-tab').tab('show')
-      // Show default tab if the is one.
-      $('.float-box-read-default-tab').tab('show')
+      $('#float-box-read-tab').tab('show');
+      // Reset defaults and show if needed.
+      new_float_box_instance($('float-box-read'));
     }
 
     // Display float-box-update tab.
     this.update = function() {
       // Show float-box-update-tab if not already shown.
       $('#float-box-update-tab').tab('show')
+      // Reset defaults and show if needed.
+      new_float_box_instance($('float-box-update'))
+    }
+
+    // function refresh_float_box($action_tab) {
+    function new_float_box_instance($action_tab) {
+      // Show float-box if needed.
+      slide_in(direction)
+      // Show default tab.
+      $action_tab.find('.float-box-default-tab').tab('show')
+      // Focus on default input.
+      $action_tab.find('.float-box-default-input').focus()
+    }
+  }])
+
+  .directive('floatBoxTitle', ['$window', function ( $window ) {
+    "use strict";
+    return {
+      restrict: 'E',
+      template: '<div class="float-box-title-text">{{text}}</div>',
+      scope: {text: '='},
+      link: function($scope, $title, iAttrs) {
+        $scope.$watch('text', function(a,b,c) {
+          var $text = $title.find('.float-box-title-text');
+          // Turn off css transitions so while loop doesn't get stuck.
+          $text.addClass('notransition')
+          // Initialize font-size of title.
+          var font_size = 40
+          $text.css('font-size', font_size+'px');
+          // Lower font-size until $text is thinner than $title or font-size is 20.
+          while (($title.width() < $text.width()) && font_size != 20) {
+            // Lower font-size by 5 and update font-size of $text.
+            font_size -= 5
+            $text.css('font-size', font_size+'px');
+          }
+          // Turn on css transitions now that font-size is updated.
+          $text.removeClass('notransition')
+        })
+      }
+    }
+  }])
+
+  .directive('floatBoxSearchBar', ['$window', function ( $window ) {
+    "use strict";
+    return {
+      restrict: 'E',
+      template: '<div class="float-box-title-text">{{text}}</div>',
+      template:
+      '<span class="input-group-btn">' +
+      '<button class="btn btn-info btn-sm" type="submit">' +
+      '<i type="text" class="fa fa-search"></i>' +
+      '</button>' +
+      '</span>' +
+      '<input type="text" class="form-control input-sm" placeholder="{{placeholder}}" ng-model="model" autofocus>',
+      scope: {model: '=', placeholder: '='}
     }
   }]);
+
 })(window, window.angular);
