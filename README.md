@@ -1,8 +1,8 @@
 # Angular Float Box
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/angular-float-box`. To experiment with that code, run `bin/console` for an interactive prompt.
+[Demo](http://planoadmin-staging.planomatic.com/#/demos/float_box)
 
-TODO: Delete this and the text above, and describe your gem
+Angular Float Box is an framework for building a mobile friendly interface for creating, reading and updating records.  To use this gem properly you will need AngularJS and Bootstrap 3
 
 ## Installation
 
