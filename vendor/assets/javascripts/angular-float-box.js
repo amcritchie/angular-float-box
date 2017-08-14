@@ -92,7 +92,7 @@
   function($timeout, title) {
     this.initialize = function() {
       // How many pixels needed for scroll to shrink.
-      var shrink_treshold = 10;
+      var shrink_treshold = 0;
       // Variable needed to check direction of scroll.
       var last_scroll_top = 0;
       // Boolean to mark if a shrink is still in process or not.
@@ -109,6 +109,7 @@
             if (animation_complete && !$('.float-box-container').hasClass("smaller")) {
               $('.float-box-container').addClass("smaller");
               animation_complete = false
+              // Wait for animation of shrinking to be complete
               $timeout(function(){ animation_complete = true }, 500);
             }
           }
@@ -120,8 +121,8 @@
               $('.float-box-container').removeClass("smaller");
               // Adjust title when smaller class is removed.
               title.adjust($('float-box-title:visible'))
-              animation_complete = false
-              $timeout(function(){ animation_complete = true; }, 500);
+              // Removing smaller has less of an animation so the animation complete is instant.
+              animation_complete = true
             }
           }
         }
@@ -150,16 +151,32 @@
       }
       // Turn on css transitions now that font-size is updated.
       $text.removeClass('notransition')
+
+      return ($title.width() < $text.width());
+    }
+  }])
+  .service('limit', [function() {
+    // Adjust font-size of title based on size of text.
+    this.adjust = function($text, limit) {
+      // Duplicate the text that will be limited as the variable display.
+      var display = angular.copy($text)
+      // Check if the limited text is longer than the limit.
+      if ($text && $text.length >= limit) {
+        // If the limited text is longer than the limit, truncate the display.
+        display = display.substring(0,limit - 1) + '..'
+      }
+      return display;
     }
   }])
   // Float Box Title.
-  .directive('floatBoxTitle', ['title', function (title ) {
+  .directive('floatBoxTitle', ['$timeout', 'title', 'limit', function ($timeout, title, limit) {
     "use strict";
     return {
       restrict: 'E',
       template: '<div class="float-box-title-text">{{text}}</div>',
       scope: {
-        text: '='
+        text: '=',
+        limit: '='
       },
       link: function($scope, $title, iAttrs) {
         // Watch for float-box-title element appearing.

@@ -206,7 +206,7 @@
   height: 30px;
 }
 .float-box-container .float-box-title-space{
-  @include transition(.5s);
+  // @include transition(.5s); // We don't have transitions here because we need to evaluate the size of the full font title.
   height: 57px; // The height is set to one line of 40px font-size, so the float-box-title doesn't change height.
 }
 .float-box-container.smaller .float-box-title-space{
@@ -217,13 +217,11 @@
   height: 65px; // The height is set to one line of 40px font-size, so the float-box-title doesn't change height.
 }
 .float-box-container.smaller .float-box-actions-space{
-  // height: 58px;
   height: 50px;
 }
 .float-box-container .float-box-links-space{
   @include transition(.5s);
   height: 40px;
-  // height: 39px;
 }
 .float-box-container .float-box-tabs-space{
   @include transition(.5s);
@@ -232,13 +230,13 @@
 
 // ====== float-box-title  ======
 .float-box-container .float-box-head float-box-title {
-  // We don't have transitions here because when smaller class is removed because we need to evaluate the size of the full font title.
+  // @include transition(.5s); // We don't have transitions here because we need to evaluate the size of the full font title.
   display: block;
   text-align: center;
   height: 57px;
 }
 .float-box-container .float-box-head float-box-title .float-box-title-text {
-  // We don't have transitions here because when smaller class is removed because we need to evaluate the size of the full font title.
+  // @include transition(.5s); // We don't have transitions here because we need to evaluate the size of the full font title.
   white-space: nowrap;
   display: inline-block;
 }
@@ -375,7 +373,6 @@
   }
   .float-box-new-btn {
     float: right;
-    // margin-top: 20px;
     pointer-events: auto; // Since we removed the pointer-events from parent, we need this to allow the scroll to be clicked on.
   }
 }
